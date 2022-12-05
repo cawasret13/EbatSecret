@@ -1,14 +1,13 @@
 import { createStore } from 'vuex'
-
+import user from './modules/user'
+import personal from './modules/personal'
+import room from './modules/room'
+import play from './modules/play'
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
+    user,
+    personal,
+    room,
+    play
   }
 })
