@@ -1,0 +1,86 @@
+.cardPlay{
+    width: 40%;
+    height: 500px;
+    padding: 1%;
+    margin: auto;
+    border-radius: 33px;
+    background-image: url('../backCard.jpg');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.infoCard{
+    width: 96%;
+    height: 96%;
+    background-color: white;
+    border-radius: 13px;
+    padding: 1%;
+}
+.newYear{
+    margin-bottom: 15px;
+}
+.gametitle{
+    text-align: center;
+    font-size: 30px;
+}
+.card_player{
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 7px;
+    box-shadow: 0 0 8px 2px rgb(0 0 0 / 7%);
+    background-color: white;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.listPlayerCard{
+    width: 30%;
+    height: 40px;
+    margin: 1%;
+}
+.listCard{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+}
+.noA{
+    background-color: rgb(255, 148, 148);
+    color: white;
+}
+.wishTo{
+    text-align: center;
+}
+@media screen and (max-width:700px) {
+    .cardPlay{
+        width: 90%;
+        border-radius: 22px;
+        margin-bottom: 5%;
+    }
+    .infoCard{
+        width: 92%;
+        border-radius: 18px;
+        height: 94%;
+        overflow: scroll;
+    }
+    .listPlayerCard{
+        width: 48%;
+    }
+    .card_player{
+        font-size: 13px;
+    }
+    .nameTo{
+        font-size: 14px;
+    }
+    .priceTo{
+        font-size: 14px;
+    }
+    .wishTo{
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,274 @@
+.room{
+    width: 184px;
+    height: 200px;
+    min-width: 184px;
+    border-radius: 13px;
+    margin-right: 1%;
+    padding: 0.5%;
+    box-shadow: 0 0 2px 2px #00000026;
+}
+.btn_reg_home{
+    cursor: pointer;
+    color: white;
+    padding: .5%;
+    text-align: center;
+    width: 150px;
+    margin: auto;
+    border: 1px solid white;
+    border-radius: 13px;
+    height: 50px;
+    background: none;
+    font-size: 18px;
+    font-family: 'Didact Gothic', sans-serif;
+}
+
+
+.listRooms{
+    display: inline-flex;
+    width: 98%;
+    overflow: scroll;
+    padding: 1%;
+}
+.status{
+    display: inline-flex;
+}
+.status img{
+   height: 70%;
+}
+.btn_create{
+    padding: 1%;
+    border-radius: 7px;
+    background: linear-gradient(to bottom right, #F2B441, #ffa887);
+    min-width: 100px;
+    border: 0;
+    cursor: pointer;
+    color: white;
+    font-family: 'Didact Gothic', sans-serif;
+    font-size: 18px;
+}
+.controll_panel{
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.myRooms{
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.none_rooms button{
+    margin: auto;
+    padding: 2%;
+    height: 50px;
+    padding: 1%;
+}
+.none_rooms h2{
+    text-align: center;
+    color: #ddd;
+}
+
+.name_room{
+    margin-top: 5px;
+    font-size: 18px;
+}
+.icon_room{
+    height: 50%;
+}
+.information_room{
+    height: 50%;
+}
+.cell_info{
+    width: 100%;
+    height: 60%;
+}
+.cell_btn{
+    width: 100%;
+    height: 40%;
+}
+
+.none_rooms{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.createRoom{
+    background-color: #000000ab;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    z-index: 100;
+}
+.activeCreate{
+    opacity: 100%;
+    transition: 1s;
+}
+.deactiveCreate{
+    opacity: 0;
+    display: none;
+}
+.private{
+    box-shadow: none;
+}
+.selectIcon{
+    border: 4px solid orange;
+    border-radius: 20px;
+    width: 20%;
+    margin: 1%;
+}
+.iconRoomsSel{
+    width: 23%;
+    margin: 1%;
+    cursor: pointer;
+}
+.nav{
+    padding: 1%;
+    width: 100%;
+}
+.swiper-pagination{
+    display: none;
+}
+.swiper-button-next{
+    color: #F2B441;
+    background-color: rgb(255, 255, 255);
+    padding: 0.5%;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 2px 4px rgba(0, 0, 0, 0.104);
+}
+.swiper-button-prev{
+    color: #F2B441;
+    background-color: rgb(255, 255, 255);
+    padding: 0.5%;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 2px 4px rgba(0, 0, 0, 0.104);
+}
+.swiper-button-next:after{
+    font-size: 21px;
+    content: "►";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.swiper-button-prev:after{
+    font-size: 21px;
+    content: "◀";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ogr_rooms{
+    width: 80%;
+    margin: auto;
+}
+.cell_siper{
+    display: none;
+}
+.formPop{
+    width: 20%;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    background-color: white;
+    border-radius: 7px;
+}
+.formPop input{
+    text-align: center;
+    height: 40px;
+    margin-bottom: 10px;
+    font-family: 'Didact Gothic', sans-serif;
+    border: 0;
+    padding: 1%;
+    border-radius: 7px;
+    box-shadow: inset 0 0 3px 1px #00000024;
+}
+.formPop input:focus{
+    outline-color: #F2B441;
+}
+.listRoomsNoMy{
+    display: inline-flex;
+    width: 98%;
+    padding: 1%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.noMyRoom{
+    margin-top: 15px;
+}
+.iconCreate{
+    height: 450px;overflow: scroll;border-radius: 13px;
+}
+/* Оптимизация */
+@media only screen and (max-width: 600px) {
+    .ogr_rooms{
+        width: 100%;
+   }
+   .createRoom{
+        display: none;
+        overflow-y: scroll;
+        opacity: 1;
+        background-color: white;
+        z-index: 100;
+        transform: translateZ(100px);
+   }
+   .form{
+        width: 98%;
+   }
+   .activeCreate{
+    display: block;
+   }
+   .formPop{
+        padding: 1%;
+        border-radius: 0;
+        width: 98%;
+        box-shadow: none;
+        padding-bottom: 5%;
+   }
+   .ctr_formPop{
+    margin-top: 5%;
+   }
+   .nav{
+    display: none;
+   }
+   .cell_siper{
+    display: block;
+    margin-right: 15px;
+   }
+   .room{
+    height: 130px;
+    padding: 3%;
+    margin: 1%;
+    width: 140px;
+    min-width: 140px;
+   }
+   .icon_room img{
+        width: 35%;
+   }
+   .icon_room{
+        height: 40%;
+   }
+   .information_room{
+        height: 60%;
+   }
+   .name_room{
+    font-size: 14px;
+    text-align: start;
+    margin-top: 0;
+   }
+   .listRoomsNoMy{
+    justify-content: center;
+   }
+   .iconCreate{
+    height: 300px;
+   }
+}
