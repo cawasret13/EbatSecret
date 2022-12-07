@@ -18,7 +18,7 @@ class ImageRoom(APIView):
         data = []
         images = photos.objects.all()
         for image in images:
-            data.append({"image": 'http://192.168.1.68:8000/media/' + image.photo.name, "id": image.id_photo})
+            data.append({"image": 'http://45.9.24.240:8000/media/' + image.photo.name, "id": image.id_photo})
         return Response(json.dumps(data))
 
 
@@ -90,7 +90,7 @@ class GetDataRooms(APIView):
         for room in data:
             nowPlayer = len(ast.literal_eval(room.users))
             img = photos.objects.get(id_photo=int(room.id_icon))
-            url = 'http://192.168.1.68:8000/media/' + img.photo.name
+            url = 'http://45.9.24.240:8000/media/' + img.photo.name
             flag = False
             for us in (ast.literal_eval(room.listSant)):
                 if(us['from'] == token):
@@ -126,7 +126,7 @@ class GetDataRoom(APIView):
                 why = True
         for room in data:
             img = photos.objects.get(id_photo=int(room.id_icon))
-            url = 'http://192.168.1.68:8000/media/' + img.photo.name
+            url = 'http://45.9.24.240:8000/media/' + img.photo.name
             if token == room.id_created:
                 status = True
             else:
@@ -176,7 +176,7 @@ class SettingsRoom(APIView):
             room.id_icon = data['id_icon']
             room.save()
             img = photos.objects.get(id_photo=int(room.id_icon))
-            url = 'http://192.168.1.68:8000/media/' + img.photo.name
+            url = 'http://45.9.24.240:8000/media/' + img.photo.name
             info = {
                 "id_room": room.id_room,
                 "id_icon": room.id_icon,
@@ -238,7 +238,7 @@ class Rooms(APIView):
                             flag = True
             if (room.id_created != token):
                 img = photos.objects.get(id_photo=int(room.id_icon))
-                url = 'http://192.168.1.68:8000/media/' + img.photo.name
+                url = 'http://45.9.24.240:8000/media/' + img.photo.name
                 info = {
                     "id_room": room.id_room,
                     "name": room.name,
@@ -271,7 +271,7 @@ class ForPlay(APIView):
                     info = []
                     if token in user['token']:
                         img = photos.objects.get(id_photo=int(room.id_icon))
-                        url = 'http://192.168.1.68:8000/media/' + img.photo.name
+                        url = 'http://45.9.24.240:8000/media/' + img.photo.name
                         info = {
                             "id_room": room.id_room,
                             "name": room.name,
@@ -466,7 +466,7 @@ class History(APIView):
                 for user in ast.literal_eval(room.listSant):
                     if user['from'] == token and user['guess'] == True:
                         img = photos.objects.get(id_photo=int(room.id_icon))
-                        url = 'http://192.168.1.68:8000/media/' + img.photo.name
+                        url = 'http://45.9.24.240:8000/media/' + img.photo.name
                         info = {
                             "id_room": room.id_room,
                             "name": room.name,
