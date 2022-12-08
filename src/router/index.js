@@ -2,8 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Personal from '../views/Personal.vue'
 import room from '../views/room.vue'
+<<<<<<< HEAD
 import history from '../views/History.vue'
 import settings from '../views/settings.vue'
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
 
 
 const isAuth = localStorage.getItem('token') !== null? true: false;
@@ -39,6 +42,7 @@ const routes = [
     path: '/room/:id',
     name: 'room',
     component: room,
+<<<<<<< HEAD
     beforeEnter:exitGuard,
   },
   {
@@ -52,6 +56,8 @@ const routes = [
     name: 'settings',
     component: settings,
     beforeEnter:exitGuard,
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
   },
 ]
 

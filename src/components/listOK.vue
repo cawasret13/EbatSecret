@@ -1,6 +1,11 @@
 <template>
+<<<<<<< HEAD
     <div class="createRoom activeCreate">
         <div class="form_mobile form" style="position: relative;overflow: scroll;height: 90%;min-height: 200px;">
+=======
+    <div class="createRoom">
+        <div class="form" style="position: relative;overflow: scroll;height: 90%;min-height: 200px;">
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
             <button v-on:click="(setActiveIK(false))" class="exit"><img width="24" src="../assets/cross-black-circular-button_icon-icons.com_73054.svg" alt=""></button>
             <h1 style="margin-top: 0;">Список одобрении</h1>
             <div v-if="(getlistOK.length != 0)" class="listPlayerAdd">

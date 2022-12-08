@@ -1,6 +1,7 @@
 <template>
      <div class="header">
             <div class="ogr_header"> 
+<<<<<<< HEAD
                 <div class="headerFlex">
                     <div class="logo">
                         <a href="/" class="a_header"  v-if="(this.active == false)">
@@ -94,3 +95,14 @@
         }
     }
 </style>
+=======
+                <a href="/" style="color:black;text-decoration: none">
+                    <div class="logo">
+                            <img src="../assets/logo.png" alt="Лого">
+                            <h1 class="logoH">Тайный санта</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+</template>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93

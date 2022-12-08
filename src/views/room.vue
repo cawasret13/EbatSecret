@@ -2,10 +2,14 @@
      <div>
         <hed />
     </div>
+<<<<<<< HEAD
     <div v-if="(getInfo['play'] && getInfo['why'])">
         <Play />
     </div>
     <div v-else-if="!getInfo['play']">
+=======
+    <div v-if="!getInfo['play']">
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
         <listOK v-if="getActiveOk" />
         <div v-if="activeSettings" class="createRoom activeCreate" style="display:display: flex;justify-content: center;align-items: center;">
                 <div v-if="getInfo['created']" class="settings">
@@ -63,10 +67,17 @@
                             <p>Приватная комната:</p>
                             <input type="checkbox" v-model="getInfoSettings['private']" v-on:change="changePrivate(getInfoSettings['private'])">
                         </div>
+<<<<<<< HEAD
                         <!-- <div class="flex_line">
                             <p>Авто игра:</p>
                             <input type="checkbox" v-model="getInfoSettings['autoPlay']" v-on:change="changePlay(getInfoSettings['autoPlay'])">
                         </div> -->
+=======
+                        <div class="flex_line">
+                            <p>Авто игра:</p>
+                            <input type="checkbox" v-model="getInfoSettings['autoPlay']" v-on:change="changePlay(getInfoSettings['autoPlay'])">
+                        </div>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                     </div>
                     <button v-on:click="Save(this.$route.params.id)" class="save">Сохранить</button>
                     <button v-on:click="(ch_del = true)" class="delete">Удалить комнату</button>
@@ -106,6 +117,7 @@
                             </h4>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <div v-if="getInfo['why']">
                         <p class="title_set">Что бы вы хотели получить?<button v-on:click="(J = !J)" class="change"><img src="../assets/edit_square_FILL0_wght400_GRAD0_opsz48.svg" alt=""></button></p>
                         <div v-if="J" class="J">
@@ -117,6 +129,8 @@
                            <p class="title_set">{{getInfo['wish']}}</p>
                         </div>
                     </div>
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                     <button v-if="getInfo['why'] && getInfo['nowPlayer'] != getInfo['maxHum']" v-on:click="(share = !share)" class="share">Поделиться</button>
                     <button v-on:click="add(this.$route.params.id)" class="btn_v" v-if="!getInfo['private'] && !getInfo['why']">Войти</button>
                     <button v-on:click="add(this.$route.params.id)" class="btn_v" v-if="(getInfo['private'] && !getInfo['why'])">Подать заявку</button>
@@ -124,7 +138,12 @@
                         <h4>localhost:8080/room/{{getInfo['id_room']}}</h4>
                     </div>
                     <div v-if="getInfo['nowPlayer'] != getInfo['maxHum']">
+<<<<<<< HEAD
                         <button v-on:click="(setActiveIK(true))" class="share" v-if="(getInfo['created'] && getInfo['private'])">Список одобрения {{getInfo['oklen']>0?'( '+getInfo['oklen']+' )':''}}</button>
+=======
+                        <br>
+                        <button v-on:click="(setActiveIK(true))" class="share" v-if="(getInfo['created'] && getInfo['private'])">Список одобрения</button>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                     </div>
                     <div v-if="(getInfo['nowPlayer'] == getInfo['maxHum'] && getInfo['created'])">
                         <button v-on:click="start(this.$route.params.id)" class="start_play">Начать игру</button>
@@ -139,7 +158,16 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
+=======
+    <div v-else-if="(getInfo['play'] && getInfo['why'])">
+        <Play />
+    </div>
+    <div v-else>
+        <h1>Простите, но вы не успели</h1>
+    </div>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
 </template>
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
@@ -147,7 +175,10 @@ import users from '../components/Users.vue'
 import listOK from '../components/listOK.vue'
 import Play from '../components/Play.vue'
 import hed from '../components/header.vue'
+<<<<<<< HEAD
 import { useToast } from "vue-toastification";
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
     export default{
         data(){
             return{
@@ -161,7 +192,11 @@ import { useToast } from "vue-toastification";
                 ch_icon:false,
                 ch_del:false,
                 share:false,
+<<<<<<< HEAD
                 J:false,
+=======
+               
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                 id_icon: '',
                 name: '',
                 numHum: '',
@@ -170,8 +205,11 @@ import { useToast } from "vue-toastification";
                 autoRes: '',
                 private: '',
                 desc: '',
+<<<<<<< HEAD
                 wish: '',
                 interval: null,
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
             }
         },
         updated(){
@@ -192,6 +230,7 @@ import { useToast } from "vue-toastification";
                 arr.push(img)
                 this.setIcon(arr)
             },
+<<<<<<< HEAD
             get(){
                 if(this.activeSettings == false) this.Room(this.$route.params.id)
             },
@@ -210,11 +249,16 @@ import { useToast } from "vue-toastification";
                         toast.success(data['mas'])
                     })
             }
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
         },
         mounted(){
             this.Room(this.$route.params.id)
             this.images()
+<<<<<<< HEAD
             this.interval = setInterval(this.get, 5000)
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
         },
         components:{
             users,

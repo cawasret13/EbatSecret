@@ -2,7 +2,11 @@
     <div class="createRoom"  v-bind:class="[activeCreate ? 'activeCreate' : 'deactiveCreate']">
         <div class="formPop">
             <h4 style="margin-top: 0;">Иконки</h4>
+<<<<<<< HEAD
             <div class="iconCreate">
+=======
+            <div style="height: 450px;overflow: scroll;border-radius: 13px;">
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                 <img v-for="icon in getIcons" :src="icon['image']" alt="" v-bind:class="(icon['id'] == this.id_icon?'selectIcon':'iconRoomsSel')" v-on:click="selectIcon(icon['id'])">
             </div>
         </div>
@@ -13,10 +17,17 @@
             <input v-model="maxPrice" type="text" placeholder="Макс. стоимость подарка">
             <p v-if="autoRes == false" style="margin: 0;">Дата результатов</p>
             <input v-if="autoRes == false" v-model="date" type="date">
+<<<<<<< HEAD
             <!-- <div style="display: inline-flex;align-items: center;height: 20px;margin-bottom: 5px;">
                 <input v-model="autoRes" type="checkbox" style="padding: 0;box-shadow: none;width: 5%;">
                 <p style="margin: 0;">Без авто результата</p>
             </div> -->
+=======
+            <div style="display: inline-flex;align-items: center;height: 20px;margin-bottom: 5px;">
+                <input v-model="autoRes" type="checkbox" style="padding: 0;box-shadow: none;width: 5%;">
+                <p style="margin: 0;">Без авто результата</p>
+            </div>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
             <div style="display: inline-flex;align-items: center;height: 20px;">
                 <input v-model="private" type="checkbox" style="padding: 0;box-shadow: none;width: 5%;">
                 <p style="margin: 0;">Приватная комната</p>
@@ -68,7 +79,11 @@
                                         </div>
                                     </div>
                                     <div class="cell_btn">
+<<<<<<< HEAD
                                         <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Открыть</button></a>
+=======
+                                        <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Войти</button></a>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +110,11 @@
                                 </div>
                             </div>
                             <div class="cell_btn">
+<<<<<<< HEAD
                                 <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Открыть</button></a>
+=======
+                                <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Войти</button></a>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                             </div>
                         </div>
                     </div>
@@ -130,7 +149,11 @@
                                     </div>
                                 </div>
                                 <div class="cell_btn">
+<<<<<<< HEAD
                                     <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Открыть</button></a>
+=======
+                                    <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Войти</button></a>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                                 </div>
                             </div>
                         </div>
@@ -159,7 +182,11 @@
                                     </div>
                                 </div>
                                 <div class="cell_btn">
+<<<<<<< HEAD
                                     <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Открыть</button></a>
+=======
+                                    <a :href="('/room/'+room['id_room'])" style="color: white;"><button class="btn_create" style="width: 100%;height: 100%;">Войти</button></a>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                                 </div>
                             </div>
                         </div>
@@ -179,11 +206,14 @@
     import 'swiper/css/navigation'
     import { mapGetters, mapMutations, mapActions } from 'vuex';
     import hed from '../components/header.vue'
+<<<<<<< HEAD
 
 
     import { useToast } from "vue-toastification";
 import { timeouts } from 'retry'
 
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
     export default {
         data(){
             return{
@@ -198,7 +228,10 @@ import { timeouts } from 'retry'
                 date:'',
                 autoRes:true,
                 private:false,
+<<<<<<< HEAD
                 interval:null,
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
             }
         },
         name: "lk",
@@ -240,6 +273,7 @@ import { timeouts } from 'retry'
                 else formData.append('private', 0);
                 if (this.autoRes == true) formData.append('autoRes', this.autoRes);
                 else formData.append('autoRes', this.autoRes);
+<<<<<<< HEAD
                 fetch('http://192.168.1.68:8000/api/v1/room/create',{
                     method: "POST",
                     body: formData,
@@ -263,14 +297,28 @@ import { timeouts } from 'retry'
                 this.Rooms()
                 this.Play()
             }
+=======
+                fetch('http://45.9.24.240:8000/api/v1/room/create',{
+                    method: "POST",
+                    body: formData,
+                }).then(res=>res.json()).then(data=>{
+                   console.log(data)
+                   this.myRooms()
+                   this.closeForm()
+                })
+            },
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
         },
         mounted(){
             this.getImages()
             this.myRooms()
             this.Rooms()
             this.Play()
+<<<<<<< HEAD
 
             this.interval = setInterval(this.get, 5000)
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
         }
         ,components: {
             Swiper,
@@ -279,7 +327,11 @@ import { timeouts } from 'retry'
         },
         setup() {
             return {
+<<<<<<< HEAD
                 modules: [Pagination, Navigation ],
+=======
+                modules: [Pagination, Navigation ]
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
             }
         }
     }

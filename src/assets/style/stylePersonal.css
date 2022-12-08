@@ -205,9 +205,12 @@
 .noMyRoom{
     margin-top: 15px;
 }
+<<<<<<< HEAD
 .iconCreate{
     height: 450px;overflow: scroll;border-radius: 13px;
 }
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
 /* Оптимизация */
 @media only screen and (max-width: 600px) {
     .ogr_rooms{
@@ -268,7 +271,10 @@
    .listRoomsNoMy{
     justify-content: center;
    }
+<<<<<<< HEAD
    .iconCreate{
     height: 300px;
    }
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
 }

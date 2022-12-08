@@ -15,6 +15,7 @@
     import { mapGetters, mapActions } from 'vuex';
     export default{
         computed: mapGetters(['getPlayers', 'getInfo']),
+<<<<<<< HEAD
         data(){
             return{
                 interval:null,
@@ -29,6 +30,13 @@
         mounted(){
             this.listPlayers(this.$route.params.id)
             this.interval = setInterval(this.get, 5000)
+=======
+        methods:{
+            ...mapActions(['listPlayers'])
+        },
+        mounted(){
+            this.listPlayers(this.$route.params.id)
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
         }
     }
 </script>

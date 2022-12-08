@@ -62,7 +62,11 @@
                             <img style="float: right;" src="../assets/icon_rooms/icon1.png" alt="">
                         </div>
                         <div class="description">
+<<<<<<< HEAD
                             <h4 class="text_desc">Создайте комнату для жеребьевки, указав её название, ограничение на стоимость подарков и другие опции по желанию.</h4>
+=======
+                            <h4 class="text_desc">Создайте коробку для жеребьевки, указав её название, ограничение на стоимость подарков и другие опции по желанию. Пригласите своих друзей, отправив им ссылку на коробку или через ввод их email адресов вручную.</h4>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                         </div>
                     </div>
                     <div class="bloc_w">
@@ -71,7 +75,11 @@
                             <img class="img_two" src="../assets/icon_rooms/icon3.png" alt="">
                         </div>
                         <div class="description">
+<<<<<<< HEAD
                             <h4 class="text_desc">Участники могут добавить в карточку свои пожелания по подарку. Как только все игроки зарегистрировались, проведите тайную жеребьевку.</h4>
+=======
+                            <h4 class="text_desc">Участники могут добавить в карточку свои пожелания по подарку и почтовый адрес. Следите за пополнением карточек участников, и, как только все игроки зарегистрировались, проведите тайную жеребьевку.</h4>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                         </div>
                     </div>
                     <div class="bloc_w">
@@ -80,6 +88,7 @@
                             <img style="float: right;" src="../assets/icon_rooms/icon6.png" alt="">
                         </div>
                         <div class="description">
+<<<<<<< HEAD
                             <h4 class="text_desc">Сразу после проведения жеребьевки все узнают, кому нужно подготовить подарок.</h4>
                         </div>
                     </div>
@@ -91,6 +100,9 @@
                         <div class="description">
                             <h4 class="text_desc">Комнаты после игры лежат в архиве, чтоб в него попасть в шапке нужно нажать на свое имя.</h4>
                             <h4 class="text_desc">Приятной игры, и хорошего настроения!!!</h4>
+=======
+                            <h4 class="text_desc">Сразу после проведения жеребьевки всем участникам на почту придёт уведомление, и они узнают, кому нужно подготовить подарок.</h4>
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                         </div>
                     </div>
                 </div>
@@ -101,7 +113,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
+<<<<<<< HEAD
 import { useToast } from "vue-toastification";
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
     export default{
         data(){
             return{
@@ -123,25 +138,41 @@ import { useToast } from "vue-toastification";
         methods:{
             ...mapMutations(["addToken"]),
            async Auth(){
+<<<<<<< HEAD
             const toast = useToast()
             let formData = new FormData();
                 formData.append('login', this.aLogin);
                 formData.append('password', this.aPassword);
                 fetch('http://192.168.1.68:8000/api/v1/user/authorization',{
+=======
+            let formData = new FormData();
+                formData.append('login', this.aLogin);
+                formData.append('password', this.aPassword);
+                fetch('http://45.9.24.240:8000/api/v1/user/authorization',{
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                     method: "POST",
                     body: formData,
                 }).then(res=>res.json()).then(data=>{
                     if(data['err'] == null){
                         this.addToken(data);
+<<<<<<< HEAD
                         toast.success("Добро пожаловать!")
                         if(localStorage.getItem('token')!=null) location.replace('/personal')
                     }else{
                         toast.error(data['err'])
+=======
+                        if(localStorage.getItem('token')!=null) location.replace('/personal')
+                    }else{
+                        console.log(data['err'])
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                     }
                 })
            },
            async Register(){
+<<<<<<< HEAD
                 const toast = useToast()
+=======
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                 if(this.rClonePassword == this.rPassword){
                     let formData = new FormData();
                     formData.append('name', this.rName);
@@ -149,19 +180,28 @@ import { useToast } from "vue-toastification";
                     formData.append('email', this.rEmail);
                     formData.append('login', this.rLogin);
                     formData.append('password', this.rPassword);
+<<<<<<< HEAD
                     fetch('http://192.168.1.68:8000/api/v1/user/create',{
+=======
+                    fetch('http://45.9.24.240:8000/api/v1/user/create',{
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                         method: "POST",
                         body: formData,
                     }).then(res=>res.json()).then(data=>{
                         if(data['err'] == null){
                             this.addToken(data);
                             if(localStorage.getItem('token')!=null) location.replace('/personal')
+<<<<<<< HEAD
                         }else{
                             toast.error(data['err'])
                         }
                     })
                 }else{
                     toast.error("Пароли не совпадают")
+=======
+                        }
+                    })
+>>>>>>> 4cacb583c08c5615e5c4fe6aa78a63b10d2dfe93
                 }
            }    
         }
