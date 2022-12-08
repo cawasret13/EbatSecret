@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import path
 
 from rooms.views import ImageRoom, CreateRoom, GetDataRooms, GetDataRoom, SettingsRoom, DeleteRoom, Players, Rooms, \
-    ForPlay, AddRoom, OkList, Exit, Play, Resualt, res, History, wish
+    ForPlay, AddRoom, OkList, Exit, Play, Resualt, res, History, wish, SetStatus, getMySanta
 from users.views import CreateUser, AuthorizationUser, Info, UserSettings
 
 urlpatterns = [
@@ -30,6 +30,8 @@ urlpatterns = [
     path('api/v1/room/res', res.as_view()),
     path('api/v1/history', History.as_view()),
     path('api/v1/room/wish', wish.as_view()),
+    path('api/v1/room/status', SetStatus.as_view()),
+    path('api/v1/room/toSanta', getMySanta.as_view()),
 ]
 
 if settings.DEBUG:

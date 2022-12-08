@@ -1,3 +1,4 @@
+import hashlib
 import json
 import random
 import string
@@ -42,7 +43,7 @@ class CreateUser(APIView):
             surname=surname,
             email=email,
             login=login,
-            password=password,
+            password= hashlib.md5(password.encode()).hexdigest(),
         )
         create_user.save()
         info_user = {
@@ -69,10 +70,8 @@ class AuthorizationUser(APIView):
         if password == '':
             return Response({"err":"Введите пароль"})
         db = DBUsers.objects.all()
-        print(login, password)
         for user in db:
-            print(user.login, user.password)
-            if login == user.login and password == user.password:
+            if login == user.login and hashlib.md5(password.encode()).hexdigest() == user.password:
                 return Response((user.token))
         db.exists()
         return Response({"err": 'Проверьте данные'})
@@ -100,8 +99,11 @@ def Validation_email(email):
 class Info(APIView):
     def post(self, request, format=None):
         token = self.request.data.get("token")
-        user = DBUsers.objects.get(token=token)
-        return Response(json.dumps({"fullname":(user.name + ' ' + user.surname)}))
+        try:
+            user = DBUsers.objects.get(token=token)
+            return Response(json.dumps({"fullname": (user.name + ' ' + user.surname)}))
+        except:
+            return Response({"err": "logout"})
 
 class UserSettings(APIView):
     def get(self, request, format=None):

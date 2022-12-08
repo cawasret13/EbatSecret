@@ -1,4 +1,6 @@
 import ast
+import time
+from datetime import datetime
 import json
 import random
 import string
@@ -11,6 +13,8 @@ from rest_framework.views import APIView
 from rooms.models import photos, rooms
 from users.models import DBUsers
 
+url_server = '45.9.24.240:8000'
+
 
 class ImageRoom(APIView):
 
@@ -18,7 +22,7 @@ class ImageRoom(APIView):
         data = []
         images = photos.objects.all()
         for image in images:
-            data.append({"image": 'http://45.9.24.240:8000/media/' + image.photo.name, "id": image.id_photo})
+            data.append({"image": f'http://{url_server}/media/' + image.photo.name, "id": image.id_photo})
         return Response(json.dumps(data))
 
 
@@ -44,12 +48,10 @@ class CreateRoom(APIView):
 
         if name == '' or name == ' ' or name == None or name == 'null':
             return Response({"err": "Введите имя"})
-        if max == '' or max == None or max =='null':
+        if max == '' or max == None or max == 'null':
             return Response({"err": "Поле игроков не может быть пустым"})
         if int(max) < 2 and int(max) != None:
-            return Response({"err":"Игроков минимум 2"})
-        if int(max) % 2 != 0 and int(max) != None:
-            return Response({"err": "Кол-во игроков должно быть четным"})
+            return Response({"err": "Игроков минимум 2"})
         if max_price == '':
             max_price = 0
 
@@ -72,14 +74,14 @@ class CreateRoom(APIView):
             date=date,
             autoRes=bool(autoRes),
             private=private,
-            users=[{"token": token, "wish":'...'}],
+            users=[{"token": token, "wish": '...', 'ready': True, 'from':False, 'fromNam':True}],
             OK_list='[]',
             listSant='[]',
             play=False,
             endPlay=False,
         )
         room.save()
-        return Response({"mas":"Успешно"})
+        return Response({"mas": "Успешно"})
 
 
 class GetDataRooms(APIView):
@@ -90,11 +92,11 @@ class GetDataRooms(APIView):
         for room in data:
             nowPlayer = len(ast.literal_eval(room.users))
             img = photos.objects.get(id_photo=int(room.id_icon))
-            url = 'http://45.9.24.240:8000/media/' + img.photo.name
+            url = f'http://{url_server}/media/' + img.photo.name
             flag = False
             for us in (ast.literal_eval(room.listSant)):
-                if(us['from'] == token):
-                    if(us['guess'] == True):
+                if (us['from'] == token):
+                    if (us['guess'] == True):
                         flag = True
 
             info = {
@@ -103,7 +105,9 @@ class GetDataRooms(APIView):
                 "maxHum": room.numHum,
                 "private": room.private,
                 "icon": url,
-                "nowPlayer": nowPlayer
+                "nowPlayer": nowPlayer,
+                "play": room.play,
+                "push": len(ast.literal_eval(room.OK_list))
             }
             if flag == False:
                 res.append(info)
@@ -118,15 +122,19 @@ class GetDataRoom(APIView):
         res = []
         data = rooms.objects.filter(id_room=id_room)
         nowPlayer = ast.literal_eval(data[0].users)
+        user_ = DBUsers.objects.get(token=token)
         why = False
-        wish ='...'
+        wish = '...'
         for user in nowPlayer:
             if token == user['token']:
                 wish = user['wish']
+                ready = user['ready']
                 why = True
+        if why == False:
+            ready = False
         for room in data:
             img = photos.objects.get(id_photo=int(room.id_icon))
-            url = 'http://45.9.24.240:8000/media/' + img.photo.name
+            url = f'http://{url_server}/media/' + img.photo.name
             if token == room.id_created:
                 status = True
             else:
@@ -146,8 +154,10 @@ class GetDataRoom(APIView):
                 "created": status,
                 "why": why,
                 "play": room.play,
-                "oklen":lenok,
-                "wish":wish,
+                "oklen": lenok,
+                "wish": wish,
+                "you": (user_.name + ' ' + user_.surname),
+                "ready": ready
             }
             res.append(info)
         return Response(json.dumps(res))
@@ -164,8 +174,6 @@ class SettingsRoom(APIView):
             return Response({"err": "Введите имя"})
         if int(data['maxHum']) < 2:
             return Response({"err": "Игроков минимум 2"})
-        if int(data['maxHum']) % 2 != 0:
-            return Response({"err": "Кол-во игроков должно быть четным"})
         if (room.id_created == token):
             room.name = data['name']
             room.numHum = data['maxHum']
@@ -176,7 +184,7 @@ class SettingsRoom(APIView):
             room.id_icon = data['id_icon']
             room.save()
             img = photos.objects.get(id_photo=int(room.id_icon))
-            url = 'http://45.9.24.240:8000/media/' + img.photo.name
+            url = f'http://{url_server}/media/' + img.photo.name
             info = {
                 "id_room": room.id_room,
                 "id_icon": room.id_icon,
@@ -214,6 +222,7 @@ class Players(APIView):
             db = DBUsers.objects.get(token=player['token'])
             info = {
                 "fullname": (db.name + ' ' + db.surname),
+                "ready": player['ready']
             }
             players_info.append(info)
         return Response(json.dumps(players_info))
@@ -238,7 +247,7 @@ class Rooms(APIView):
                             flag = True
             if (room.id_created != token):
                 img = photos.objects.get(id_photo=int(room.id_icon))
-                url = 'http://45.9.24.240:8000/media/' + img.photo.name
+                url = f'http://{url_server}/media/' + img.photo.name
                 info = {
                     "id_room": room.id_room,
                     "name": room.name,
@@ -271,7 +280,7 @@ class ForPlay(APIView):
                     info = []
                     if token in user['token']:
                         img = photos.objects.get(id_photo=int(room.id_icon))
-                        url = 'http://45.9.24.240:8000/media/' + img.photo.name
+                        url = f'http://{url_server}/media/' + img.photo.name
                         info = {
                             "id_room": room.id_room,
                             "name": room.name,
@@ -279,6 +288,7 @@ class ForPlay(APIView):
                             "private": room.private,
                             "icon": url,
                             "nowPlayer": len(users),
+                            "play": room.play,
                         }
                         if flag == False:
                             res.append(info)
@@ -295,20 +305,23 @@ class AddRoom(APIView):
             a = ast.literal_eval(db.OK_list)
             for player in a:
                 if player['token'] == token:
-                    return Response({"err":"Вы уже подали завку"})
+                    return Response({"err": "Вы уже подали завку"})
             a.append({'token': token})
             db.OK_list = a
             db.save()
-            return Response({"mas":"Ждемс..."})
+            return Response({"mas": "Ждемс..."})
         else:
             a = ast.literal_eval(db.users)
             for player in a:
                 if player['token'] == token:
-                    return Response({"err":"Вы уже подали завку"})
-            a.append({'token': token, 'wish':"..."})
-            db.users = a
-            db.save()
-            return Response({"mas":"Ждемс..."})
+                    return Response({"err": "Вы уже подали завку"})
+            if len(ast.literal_eval(db.users)) == int(db.numHum):
+                return Response({"err": "Мест нет"})
+            else:
+                a.append({'token': token, 'wish': "...", 'ready': False, 'from':False, 'fromNam':True})
+                db.users = a
+                db.save()
+            return Response({"mas": "Ждемс..."})
         return Response("")
 
 
@@ -344,7 +357,7 @@ class OkList(APIView):
                         for ok in lsOK:
                             if (int(id) == int(ids)):
                                 db_room = ast.literal_eval(room.users)
-                                db_room.append({'token': ok['token'], "wish":'...'})
+                                db_room.append({'token': ok['token'], "wish": '...', 'ready': False, 'from':False, 'fromNam':True})
                                 room.users = db_room
                                 okLs = ast.literal_eval(room.OK_list)
                                 okLs.remove({'token': ok['token']})
@@ -378,7 +391,7 @@ class Exit(APIView):
             for ok in lsOK:
                 if ok['token'] == token:
                     okLs = ast.literal_eval(room.users)
-                    okLs.remove({'token': ok['token']})
+                    okLs.remove({'token': ok['token'], 'wish': ok['wish'], 'ready': ok['ready'], 'from':ok['from'], 'fromNam':ok['fromNam']})
                     room.users = okLs
                 ids = +1
             room.save()
@@ -392,32 +405,44 @@ class Play(APIView):
         id_room = self.request.data.get("id_room")
         room = rooms.objects.get(id_room=id_room)
         if (len(ast.literal_eval(room.users))) == int(room.numHum):
-            if room.id_created == token:
+            flag = True
+            for player in ast.literal_eval(room.users):
+                if player['ready'] == False:
+                    flag = False
+            if room.id_created == token and flag:
                 print("Игра началась")
                 room.play = True
+                room.date = datetime.date(datetime.now())
                 room.listSant = PlayGenerate(ast.literal_eval(room.users))
                 room.save()
+            else:
+                return Response("Не все игроки готовы")
         return Response("Игра началась")
 
 
 def PlayGenerate(data):
-    list =[]
+    list = []
     listUsers = data
-    users = DBUsers.objects.all()
-    black_list = []
+    black_list_from = []
+    black_list_to = []
     flag = False
     while flag == False:
         id = random.randint(0, len(data) - 1)
         id_to = random.randint(0, len(data) - 1)
         if ((data[id]['token'] not in data[id_to]['token'])):
-            if(data[id]["token"] not in black_list and data[id_to]["token"] not in black_list):
+            # if (data[id_to]["token"] not in black_list_to and data[id]['token'] not in black_list_from):
+            #     list.append({"from": data[id]['token'], "to": data[id_to]['token'], "guess": False})
+            #     black_list_to.append(data[id_to]['token'])
+            #     black_list_from.append(data[id]['token'])
+            if (data[id]['token'] not in black_list_from) and (data[id_to]['token'] not in black_list_to):
                 list.append({"from": data[id]['token'], "to": data[id_to]['token'], "guess": False})
-                list.append({"from": data[id_to]['token'], "to": data[id]['token'], "guess": False})
-                black_list.append(data[id_to]['token'])
-                black_list.append(data[id]['token'])
-        if len(black_list) == len(data):
+                black_list_to.append(data[id_to]['token'])
+                black_list_from.append(data[id]['token'])
+        if len(black_list_from) == len(data) and len(black_list_to) == len(data):
             flag = True
+    print(list)
     return list
+
 
 class Resualt(APIView):
     def post(self, request, format=None):
@@ -426,14 +451,25 @@ class Resualt(APIView):
         room = rooms.objects.get(id_room=id_room)
         info = []
         for user in ast.literal_eval(room.listSant):
-            if(user['from'] == token):
+            if (user['from'] == token):
+                user_name = ''
+                for us_to in ast.literal_eval(room.listSant):
+                    if us_to['to'] == token:
+                        user__ = DBUsers.objects.get(token=us_to['from'])
+                        user_name = user__.name + ' ' + user__.surname
                 for user_ in ast.literal_eval(room.users):
                     if user_['token'] == user['to']:
                         wish = user_['wish']
+                    if user_['token'] == token:
+                        from_=user_['from']
+                        fromNam_=user_['fromNam']
                 db_from = DBUsers.objects.get(token=token)
                 db = DBUsers.objects.get(token=user['to'])
-                info.append({'user': (db.name + ' ' + db.surname), "guess": user['guess'], "from": (db_from.name + ' ' + db_from.surname), "price": room.max_price, "wish": wish})
+                info.append({'user': (db.name + ' ' + db.surname), "guess": user['guess'],
+                             "from": (db_from.name + ' ' + db_from.surname), "price": room.max_price, "wish": wish,
+                             "from_": from_, "fromNam": fromNam_, "from_name":user_name})
         return Response(json.dumps(info))
+
 
 class res(APIView):
     def post(self, request, format=None):
@@ -443,21 +479,30 @@ class res(APIView):
         info = []
         a = []
         for user in ast.literal_eval(room.listSant):
+            if user['to'] == token:
+                user__ = DBUsers.objects.get(token=user['from'])
+                user_name = user__.name + ' ' + user__.surname
             if (user['from'] == token):
+                user_name = ''
                 for user_ in ast.literal_eval(room.users):
                     if user_['token'] == user['to']:
                         wish = user_['wish']
+                    if user_['token'] == token:
+                        from_=user_['from']
+                        fromNam_=user_['fromNam']
                 db = DBUsers.objects.get(token=user['to'])
                 db_from = DBUsers.objects.get(token=token)
                 user['guess'] = True
-                info.append({'user': (db.name + ' ' + db.surname), "guess": user['guess'],"from":(db_from.name + ' ' + db_from.surname),"price":room.max_price, "wish":wish})
+                info.append({'user': (db.name + ' ' + db.surname), "guess": user['guess'],
+                             "from": (db_from.name + ' ' + db_from.surname), "price": room.max_price, "wish": wish, "from_":from_, "fromNam":fromNam_, "from_name":user_name})
             a.append(user)
         room.listSant = a
         room.save()
         return Response(json.dumps(info))
 
+
 class History(APIView):
-    def post(self,request, format=None):
+    def post(self, request, format=None):
         token = self.request.data.get("token")
         list = []
         rooms_ = rooms.objects.all()
@@ -466,23 +511,26 @@ class History(APIView):
                 for user in ast.literal_eval(room.listSant):
                     if user['from'] == token and user['guess'] == True:
                         img = photos.objects.get(id_photo=int(room.id_icon))
-                        url = 'http://45.9.24.240:8000/media/' + img.photo.name
+                        url = f'http://{url_server}/media/' + img.photo.name
                         info = {
                             "id_room": room.id_room,
                             "name": room.name,
                             "icon": url,
+                            "date": str(room.date),
                         }
                         list.append(info)
         list = list[::-1]
         return Response(json.dumps(list))
+
+
 class wish(APIView):
-    def post(self, request,format=None):
+    def post(self, request, format=None):
         token = self.request.data.get("token")
         id_room = self.request.data.get("id_room")
         wish = self.request.data.get("wish")
         print(wish)
         room = rooms.objects.get(id_room=id_room)
-        users =[]
+        users = []
         for user in ast.literal_eval(room.users):
             if user['token'] == token:
                 print("jjj")
@@ -491,3 +539,113 @@ class wish(APIView):
         room.users = users
         room.save()
         return Response({"mas": "Успех"})
+
+
+class SetStatus(APIView):
+    def get(self, request, format=None):
+        id_room = self.request.query_params.get('id_room')
+        token = self.request.query_params.get('token')
+        room = rooms.objects.get(id_room=id_room)
+        users = []
+        for user in ast.literal_eval(room.users):
+            if user['token'] == token:
+                if user['ready'] == True:
+                    user['ready'] = False
+                else:
+                    user['ready'] = True
+            users.append(user)
+        room.users = users
+        room.save()
+        return Response({'mas': "Вы успешно поменяли статус"})
+    def post(self, request, format=None):
+        token = self.request.data.get("token")
+        id_room = self.request.data.get("id_room")
+        id = self.request.data.get("id")
+        room = rooms.objects.get(id_room=id_room)
+        if token == room.id_created:
+            users = []
+            ids = 0
+            for user in ast.literal_eval(room.users):
+                if(ids != int(id)):
+                    users.append(user)
+                    print("OST")
+                print(ids, id)
+                ids+=1
+            room.users = users
+            room.save()
+            return Response({'mas':'Успешно убрали пользователя'})
+        else:
+            return Response({'err': 'У вас нет прав'})
+
+class getMySanta(APIView):
+    def get(self, request, format=None):
+        id_room = self.request.query_params.get('id_room')
+        token = self.request.query_params.get('token')
+        room = rooms.objects.get(id_room=id_room)
+        users = []
+        for user in ast.literal_eval(room.users):
+            if user['token']!=token:
+                flag = False
+                for to in ast.literal_eval(room.listSant):
+                    if to['from'] == user['token'] and to['to'] == token:
+                        flag = True
+                db = DBUsers.objects.get(token=user['token'])
+                users.append({"fullname":(db.name +' '+ db.surname), "santa":flag})
+        return Response(json.dumps(users))
+
+    def post(self, request, format=None):
+        token = self.request.data.get("token")
+        id_room = self.request.data.get("id_room")
+        room = rooms.objects.get(id_room=id_room)
+        status = self.request.data.get("status")
+        users=[]
+        for user in ast.literal_eval(room.users):
+            if user['token'] == token:
+                if int(status) == 1:
+                    user['from'] = True
+                    user['fromNam'] = False
+                elif int(status) == 0 :
+                    user['from'] = False
+                    user['fromNam'] = False
+            users.append(user)
+        room.users = users
+        room.save()
+
+        return Response(json.dumps(clone_(token, id_room)))
+    def put(self, requset, format=None):
+        token = self.request.data.get("token")
+        id_room = self.request.data.get("id_room")
+        room = rooms.objects.get(id_room=id_room)
+        users = []
+        for user in ast.literal_eval(room.users):
+            user['from'] = True
+            user['fromNam'] = False
+            users.append(user)
+        room.autoRes = True
+        room.users = users
+        room.save()
+        return Response({"mas":"Все видят сант", "data":json.dumps(clone_(token, id_room))})
+
+def clone_(token, id_room):
+    room = rooms.objects.get(id_room=id_room)
+    info = []
+
+    for user in ast.literal_eval(room.listSant):
+        if (user['from'] == token):
+            user_name = ''
+            for us_to in ast.literal_eval(room.listSant):
+                if us_to['to'] == token:
+                    user__ = DBUsers.objects.get(token=us_to['from'])
+                    user_name = user__.name + ' ' + user__.surname
+            for user_ in ast.literal_eval(room.users):
+                if user_['token'] == user['to']:
+                    wish = user_['wish']
+                if user_['token'] == token:
+                    from_ = user_['from']
+                    fromNam_ = user_['fromNam']
+            db_from = DBUsers.objects.get(token=token)
+            db = DBUsers.objects.get(token=user['to'])
+            info.append({'user': (db.name + ' ' + db.surname), "guess": user['guess'],
+                         "from": (db_from.name + ' ' + db_from.surname), "price": room.max_price, "wish": wish,
+                         "from_": from_, "fromNam": fromNam_, "from_name":user_name})
+    return info
